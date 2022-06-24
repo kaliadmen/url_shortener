@@ -26,16 +26,16 @@ func ResolveURL(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "cannot connect to database"})
 	}
 
-	rateIncur := database.CreateClient(1)
+	r2 := database.CreateClient(1)
 
-	defer func(rInr *redis.Client) {
-		err := rInr.Close()
+	defer func(r2 *redis.Client) {
+		err := r2.Close()
 		if err != nil {
 			log.Println(err)
 		}
-	}(rateIncur)
+	}(r2)
 
-	_ = rateIncur.Incr(database.Ctx, "counter")
+	_ = r2.Incr(database.Ctx, "counter")
 
 	return c.Redirect(value, 301)
 
