@@ -1,0 +1,16 @@
+version: "2"
+
+services:
+  api:
+    build: api
+    ports:
+      - "8498:8498"
+    depends_on:
+      - db
+
+  db:
+    build: db
+    ports:
+      - "6381:6379"
+    volumes:
+      - ./data:/data
